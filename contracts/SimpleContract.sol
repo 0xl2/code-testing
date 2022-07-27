@@ -17,6 +17,8 @@ contract SimpleContract is Ownable {
         AvailableAmount
     }
 
+    event ValueChanged(uint va1, uint val2);
+
     constructor() {
         UniqueNumber = uint256(
             keccak256(
@@ -31,8 +33,12 @@ contract SimpleContract is Ownable {
      * @param _availableNum  Available number
      */
     function setInfo(uint _accountNum, uint _availableNum) external onlyOwner {
+        require(_accountNum != AccountNumber, "Err msg");
+
         AccountNumber = _accountNum;
         AvailableAmount= _availableNum;
+
+        emit ValueChanged(AccountNumber, AvailableAmount);
     }
 
     /**
@@ -50,7 +56,7 @@ contract SimpleContract is Ownable {
      * @param _type  data type
      */
     function getInfo(DataType _type) view external returns(uint _value) {
-        require(UserPermission[msg.sender][_type], "No allowed");
+        require(UserPermission[msg.sender][_type], "Not allowed");
 
         _value = _type == DataType.UniqueNumber ? UniqueNumber :
                 _type == DataType.AccountNumber ? AccountNumber : AvailableAmount;

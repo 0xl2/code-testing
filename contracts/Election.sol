@@ -11,5 +11,4 @@ contract Election {
 
     // Provide a key-value relationship between an unsigned int to “Candidate”
     mapping(uint => Candidate) public candidates;
-    
 }
